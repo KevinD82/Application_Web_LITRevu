@@ -1,0 +1,5 @@
+# Django core framework
+Django>=4.2,<5.1
+
+# Librairie de traitement d'image requise pour le champ ImageField de ton modèle Ticket
+Pillow>=10.0.0

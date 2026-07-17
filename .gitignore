@@ -1,0 +1,33 @@
+# Environnement virtuel
+venv/
+.env/
+.venv/
+
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Dossiers de build
+build/
+dist/
+*.egg-info/
+
+# Configurations d’outils
+*.log
+*.pot
+*.pyproj
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
