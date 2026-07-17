@@ -13,7 +13,19 @@ Cette première phase a consisté à mettre en place l'architecture globale du p
 * **Application `authentication`** : Création d'une application dédiée à la gestion des accès (connexion, inscription).
 * **Modèle Utilisateur Personnalisé** : Implémentation d'une classe `User` héritant de `AbstractUser` dès le premier jour pour anticiper les futures évolutions de la base de données.
 * **Base de données & Superuser** : Exécution des migrations initiales (SQLite) et configuration du compte administrateur.
-* **Versionnage** : Configuration d'un fichier `.gitignore` optimal pour isoler l'environnement virtuel et premier commit de l'architecture.
+
+---
+
+## 📚 Étape 2 : Modèles de Données (Core)
+
+Mise en place du cœur de l'application avec la création des modèles nécessaires aux fonctionnalités de critiques littéraires et d'abonnements.
+
+### 🛠️ Fonctionnalités réalisées
+* **Application `litrevu`** : Création de l'application principale du projet.
+* **Modèle `Ticket`** : Permet aux utilisateurs de demander une critique en renseignant un titre, une description et une image de couverture.
+* **Modèle `Review`** : Permet de publier une critique liée à un Ticket, avec un système de note (0 à 5), un titre et un corps de texte.
+* **Modèle `UserFollows`** : Gestion du système d'abonnements croisés entre utilisateurs avec contrainte d'unicité pour éviter les doublons.
+* **Gestion des Médias** : Intégration de la bibliothèque Pillow pour la gestion des fichiers images des tickets.
 
 ---
 

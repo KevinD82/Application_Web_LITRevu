@@ -6,11 +6,9 @@ from django.db import models
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048, blank=True)
-    user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE
-    )
-    image = models.ImageField(null=True, blank=True, upload_cache=None) # Ajusté selon vos configurations média
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # Correction ici : upload_to au lieu de upload_cache
+    image = models.ImageField(null=True, blank=True, upload_to="ticket_images/")
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -25,10 +23,7 @@ class Review(models.Model):
     )
     headline = models.CharField(max_length=128)
     body = models.TextField(max_length=8192, blank=True)
-    user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -37,20 +32,21 @@ class Review(models.Model):
 
 class UserFollows(models.Model):
     user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='following'
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="following"
     )
     followed_user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='followed_by'
+        related_name="followed_by",
     )
 
     class Meta:
         # Ensures we don't get multiple UserFollows instances
         # for unique user-user_followed pairs
-        unique_together = ('user', 'followed_user',)
+        unique_together = (
+            "user",
+            "followed_user",
+        )
 
     def __str__(self):
         return f"{self.user.username} suit {self.followed_user.username}"

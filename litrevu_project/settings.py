@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Ton application d'authentification
     "authentication",
+    "litrevu",
 ]
 
 MIDDLEWARE = [
