@@ -1,88 +1,48 @@
-# AlgoInvest&Trade - Optimisation de Portefeuille Financier
+# LITRevu - Plateforme de Critiques Littéraires
 
-Ce projet a été développé pour **AlgoInvest&Trade**, une société financière spécialisée dans l'investissement. L'objectif est de concevoir un algorithme d'optimisation permettant de maximiser le profit des clients sur un investissement à court terme (2 ans), sous contrainte de budget (500 € maximum par client).
-
-Chaque action ne peut être achetée qu'une seule fois et l'achat de fractions d'actions est impossible (Problème du sac à dos 0/1).
+Ce projet est développé dans le cadre de la formation Développeur d'Application Python. L'objectif est de créer une application web permettant aux utilisateurs de solliciter ou de publier des critiques de livres ou d'articles.
 
 ---
 
-## 📁 Structure du Projet
+## 🚀 Étape 1 : Initialisation et Authentification
 
-Le projet respecte les conventions de nommage des livrables et est structuré de la manière suivante :
+Cette première phase a consisté à mettre en place l'architecture globale du projet Django et à isoler la gestion des utilisateurs de manière évolutive.
 
-*   `bruteforce.py` : Script contenant l'algorithme de force brute (recherche de la solution optimale absolue par exploration exhaustive).
-*   `optimized.py` : Script optimisé contenant la phase de nettoyage des données (Pandas) et le comparatif des deux algorithmes d'optimisation (Glouton vs Programmation Dynamique).
-*   `data/` : Dossier contenant les fichiers de données d'entrée au format CSV (les jeux de données fournis et historiques).
-*   `README.md` : Guide d'utilisation et de compréhension du projet (ce fichier).
-
----
-
-## 🛠️ Algorithmes Implémentés
-
-### 1. Force Brute (`bruteforce.py`)
-*   **Principe :** Utilise `itertools.combinations` pour explorer absolument $2^N$ combinaisons possibles d'actions.
-*   **Complexité Temporelle :** $O(2^N)$ (Exponentielle).
-*   **Limite :** Inutilisable au-delà de 20 à 30 actions en raison de l'explosion du temps de calcul et de la mémoire requise.
-
-### 2. Algorithme Glouton (`optimized.py`)
-*   **Principe :** Trie les actions par leur ratio d'efficacité ($\text{profit} / \text{coût}$) de manière décroissante et sélectionne les meilleures qui respectent le budget.
-*   **Complexité Temporelle :** $O(N \log N)$ (Quasi-linéaire).
-*   **Avantage :** Réponse instantanée (quelques millisecondes), idéal pour le traitement en temps réel de volumes massifs d'actions.
-*   **Limite :** Ne garantit pas systématiquement l'optimum absolu à 100 % (solution approchée extrêmement proche de l'optimum).
-
-### 3. Programmation Dynamique (`optimized.py`)
-*   **Principe :** Résout le problème du sac à dos exact en construisant une matrice d'aide à la décision. Les prix étant décimaux, ils sont convertis en centimes d'euros (entiers) pour créer les indices de la grille.
-*   **Complexité Temporelle :** $O(N \times W)$ (où $W$ représente le budget de 50 000 centimes).
-*   **Avantage :** Garantit la solution optimale absolue au centime près.
-*   **Limite :** Consommation de RAM et temps de calcul plus élevés que l'algorithme glouton (6 à 12 secondes sur les grands jeux de données).
+### 🛠️ Fonctionnalités réalisées
+* **Initialisation du projet Django** : Création du dossier de configuration global `litrevu_project`.
+* **Application `authentication`** : Création d'une application dédiée à la gestion des accès (connexion, inscription).
+* **Modèle Utilisateur Personnalisé** : Implémentation d'une classe `User` héritant de `AbstractUser` dès le premier jour pour anticiper les futures évolutions de la base de données.
+* **Base de données & Superuser** : Exécution des migrations initiales (SQLite) et configuration du compte administrateur.
+* **Versionnage** : Configuration d'un fichier `.gitignore` optimal pour isoler l'environnement virtuel et premier commit de l'architecture.
 
 ---
 
-## ⚙️ Installation et Prérequis
+## 💻 Installation et Lancement local
 
-Ce projet requiert **Python 3** et la bibliothèque **Pandas** pour le nettoyage de données.
+### 1. Prérequis
+* Python 3.x
+* Git
 
-### 1. Cloner le projet et se positionner dans le dossier
+### 2. Configuration de l'environnement
 ```bash
-git clone <url_du_depot>
-cd <nom_du_projet>
-```
+# Activer l'environnement virtuel (Windows)
+.\env\Scripts\activate
 
-### 2. Installer les dépendances
-```bash
-# Création de l'environnement virtuel
-python -m venv env
-
-# Activation de l'environnement (Windows)
-env\Scripts\activate
-# Activation de l'environnement (macOS/Linux)
-source env/bin/activate
-
-# Installation de Pandas
+# Installer les dépendances
 pip install -r requirements.txt
-
-### 3. Placer les fichiers de données
-```
-Assurez-vous que vos fichiers de données CSV sont correctement placés dans le dossier data/
-```
-- data/liste_actions.csv (pour la force brute)
-
-- data/dataset1_Python+P7.csv (pour l'optimisé)
-
-- data/dataset2_Python+P7.csv (pour l'optimisé)
 ```
 
-### 4. Utilisation
+### 3. Base de données et Serveur
+```bash
 
-Exécuter l'algorithme de Force Brute
-```Bash
-python bruteforce.py
-```
+# Appliquer les migrations
+python manage.py migrate
 
-Exécuter les algorithmes optimisés (Comparatif Glouton vs Dynamique)
-```Bash
-python optimized.py
-```
+# Lancer le serveur de développement
+python manage.py runserver
+
+
+
 
 👤 Auteur Kevin Delcroix
 2026
