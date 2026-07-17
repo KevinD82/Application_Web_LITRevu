@@ -56,8 +56,7 @@ python manage.py migrate
 
 # Lancer le serveur de développement
 python manage.py runserver
-
-
+```
 
 
 👤 Auteur Kevin Delcroix
