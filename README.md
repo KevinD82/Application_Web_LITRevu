@@ -25,6 +25,10 @@ Cette première phase a consisté à mettre en place l'architecture globale du p
 
 ### 2. Configuration de l'environnement
 ```bash
+
+# Création de l'environnement virtuel
+python -m venv env
+
 # Activer l'environnement virtuel (Windows)
 .\env\Scripts\activate
 
