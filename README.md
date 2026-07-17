@@ -53,6 +53,7 @@ pip install -r requirements.txt
 
 # Appliquer les migrations
 python manage.py migrate
+
 # Lancer le serveur de développement
 python manage.py runserver
 
