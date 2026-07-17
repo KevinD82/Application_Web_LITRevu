@@ -1,33 +1,19 @@
-# Environnement virtuel
-venv/
-.env/
-.venv/
-
-# Fichiers Python compilés
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
 
-# Dossiers de build
-build/
-dist/
-*.egg-info/
+# Environnement virtuel (très important pour ne pas push ton dossier env)
+env/
+venv/
+ENV/
 
-# Configurations d’outils
-*.log
-*.pot
-*.pyproj
+# Base de données locale (SQLite)
+*.sqlite3
 
-# VS Code
+# Fichiers de configuration de l'éditeur (VS Code)
 .vscode/
 
-# PyCharm
-.idea/
-
-# Jupyter
-.ipynb_checkpoints/
-
-# OS files
+# Fichiers système
 .DS_Store
 Thumbs.db
