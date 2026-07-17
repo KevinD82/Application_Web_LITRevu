@@ -56,10 +56,6 @@ python manage.py migrate
 
 # Lancer le serveur de développement
 python manage.py runserver
-<<<<<<< HEAD
-=======
-
->>>>>>> 41a20e9a0e5e0829fe83c74de19bdfa16697886f
 ```
 
 
