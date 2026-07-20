@@ -1,0 +1,9 @@
+{% extends 'authentication/base.html' %}
+
+{% block title %}Accueil - LITRevu{% endblock %}
+
+{% block content %}
+<h2>Bienvenue sur LITRevu, {{ user.username }} !</h2>
+<p>Vous êtes bien connecté.</p>
+<a href="{% url 'logout' %}">Se déconnecter</a>
+{% endblock %}
