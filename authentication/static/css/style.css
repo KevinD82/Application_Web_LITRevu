@@ -1,0 +1,190 @@
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #f7f5f0;        /* Fond papier crème soft */
+    --card-bg: #ffffff;         /* Fond des cartes blanc */
+    --primary-color: #1e293b;   /* Bleu encre très foncé */
+    --accent-color: #9a3412;    /* Terracotta/Bordeaux chaleureux */
+    --accent-hover: #7c2d12;
+    --text-color: #334155;      /* Gris texte lisible */
+    --text-muted: #64748b;     /* Gris adouci */
+    --border-color: #e2e8f0;
+    --radius: 12px;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Titles styled like literary typography */
+h1, h2, h3, .brand-logo {
+    font-family: 'Merriweather', serif;
+    color: var(--primary-color);
+}
+
+/* --- Navigation Header --- */
+.navbar {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--accent-color);
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* --- Layout Container --- */
+.container {
+    max-width: 900px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    flex: 1;
+}
+
+/* --- Auth Card (Login & Signup) --- */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 75vh;
+}
+
+.auth-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 440px;
+}
+
+.auth-card h2 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.auth-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+/* --- Forms Styling --- */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #fafafa;
+    transition: all 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(154, 52, 18, 0.15);
+}
+
+/* --- Buttons --- */
+.btn-primary {
+    width: 100%;
+    padding: 0.85rem;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-primary:active {
+    transform: scale(0.99);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.auth-footer a {
+    color: var(--accent-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Error messages */
+.errorlist {
+    color: #dc2626;
+    list-style: none;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+}

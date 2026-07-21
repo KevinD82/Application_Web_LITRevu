@@ -1,18 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}LITRevu{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <header>
-        <h1>LITRevu</h1>
+
+    <header class="navbar">
+        <a href="{% url 'home' %}" class="brand-logo">📖 LITRevu</a>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <span>Bonjour, <strong>{{ user.username }}</strong></span>
+                <a href="{% url 'logout' %}">Déconnexion</a>
+            {% else %}
+                <a href="{% url 'login' %}">Connexion</a>
+                <a href="{% url 'signup' %}">Inscription</a>
+            {% endif %}
+        </div>
     </header>
 
-    <main>
+    <main class="container">
         {% block content %}
         {% endblock %}
     </main>
+
 </body>
 </html>
