@@ -1,0 +1,27 @@
+{% extends 'authentication/base.html' %}
+
+{% block title %}Créer un ticket - LITRevu{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card" style="max-width: 600px;">
+        <h2>Demander une critique</h2>
+        <p class="auth-subtitle">Demandez l'avis de la communauté sur un livre ou un article</p>
+
+        <!-- IMPORTANT: enctype="multipart/form-data" est obligatoire pour envoyer des images -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn-primary">Publier le ticket</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

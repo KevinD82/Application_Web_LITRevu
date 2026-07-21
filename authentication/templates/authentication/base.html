@@ -5,38 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}LITRevu{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Chargement du fichier CSS avec cache-busting (?v=1.1) -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=1.1">
 </head>
 <body>
 
-<header class="navbar">
-    <!-- Logo détouré (image sans fond) -->
-    <a href="{% url 'home' %}" class="brand-logo">
-        <img src="{% static 'images/logo.png' %}" alt="Logo LITRevu" class="logo-img">
-    </a>
-
-    <!-- Navigation centrale -->
     {% if user.is_authenticated %}
-    <nav class="nav-center">
-        <a href="{% url 'home' %}" class="nav-item active">Flux</a>
-        <a href="#" class="nav-item">Mes posts</a>
-        <a href="#" class="nav-item">Abonnements</a>
-    </nav>
+    <header class="navbar">
+        <div class="nav-brand">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="LITRevu Logo" class="logo">
+            </a>
+        </div>
+
+        <nav class="nav-center">
+            <a href="{% url 'home' %}" class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Flux</a>
+            <a href="#" class="nav-item">Mes posts</a>
+            <a href="#" class="nav-item">Abonnements</a>
+        </nav>
+
+        <div class="nav-right">
+            <span class="user-badge">👤 {{ user.username }}</span>
+            <a href="{% url 'logout' %}" class="btn-logout">Déconnexion</a>
+        </div>
+    </header>
     {% endif %}
 
-    <!-- Espace Utilisateur à droite -->
-    <div class="nav-links">
-        {% if user.is_authenticated %}
-            <span class="user-badge">👤 <strong>{{ user.username }}</strong></span>
-            <a href="{% url 'logout' %}" class="btn-logout">Déconnexion</a>
-        {% else %}
-            <a href="{% url 'login' %}">Connexion</a>
-            <a href="{% url 'signup' %}">Inscription</a>
-        {% endif %}
-    </div>
-</header>
-
-    <main class="container">
+    <main class="main-container">
         {% block content %}
         {% endblock %}
     </main>

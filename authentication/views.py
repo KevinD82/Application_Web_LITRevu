@@ -1,10 +1,13 @@
+from itertools import chain
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
-from .forms import LoginForm, SignupForm
+from django.contrib.auth.decorators import login_required
+from django.db.models import Value, CharField
+from .forms import LoginForm, SignupForm, TicketForm, ReviewForm
+from litrevu.models import Ticket, Review
 
 
-# login_page : Affiche le formulaire de connexion. Si l'utilisateur valide le formulaire (POST), Django vérifie son identifiant et son mot de passe avec authenticate().
-# S'ils sont bons, il ouvre la session avec login()
+# login_page : Affiche le formulaire de connexion.
 def login_page(request):
     """Gère la connexion d'un utilisateur."""
     form = LoginForm()
@@ -19,7 +22,7 @@ def login_page(request):
             )
             if user is not None:
                 login(request, user)
-                return redirect("home")  # On redirigera vers la page d'accueil (flux)
+                return redirect("home")
             else:
                 message = "Identifiants invalides."
 
@@ -35,7 +38,7 @@ def logout_user(request):
     return redirect("login")
 
 
-# signup_page : Crée le nouveau compte en BDD via form.save(), puis connecte automatiquement le nouvel utilisateur.
+# signup_page : Crée le nouveau compte en BDD via form.save().
 def signup_page(request):
     """Gère la création d'un nouveau compte utilisateur."""
     form = SignupForm()
@@ -43,9 +46,78 @@ def signup_page(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(
-                request, user
-            )  # Connecte directement l'utilisateur après l'inscription
+            login(request, user)
             return redirect("home")
 
     return render(request, "authentication/signup.html", context={"form": form})
+
+
+# home : Affiche le flux principal avec les tickets et les critiques combinés.
+@login_required
+def home(request):
+    """Affiche le flux principal de l'utilisateur."""
+    tickets = Ticket.objects.all()
+    reviews = Review.objects.all()
+
+    # Annotation pour distinguer les types de contenu
+    tickets = tickets.annotate(content_type=Value("TICKET", CharField()))
+    reviews = reviews.annotate(content_type=Value("REVIEW", CharField()))
+
+    # Combinaison et tri par date de création décroissante
+    posts = sorted(
+        chain(reviews, tickets), key=lambda post: post.time_created, reverse=True
+    )
+
+    context = {
+        "posts": posts,
+    }
+    return render(request, "authentication/home.html", context)
+
+
+# ticket_create : Gère la création d'un Ticket seul.
+@login_required
+def ticket_create(request):
+    """Gère la création d'un nouveau ticket."""
+    if request.method == "POST":
+        form = TicketForm(request.POST, request.FILES)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            return redirect("home")
+    else:
+        form = TicketForm()
+
+    return render(request, "authentication/ticket_create.html", context={"form": form})
+
+
+# review_create : Gère la création simultanée d'un Ticket et d'une Critique.
+@login_required
+def review_create(request):
+    """Gère la création d'un ticket et de sa critique associée."""
+    ticket_form = TicketForm()
+    review_form = ReviewForm()
+
+    if request.method == "POST":
+        ticket_form = TicketForm(request.POST, request.FILES)
+        review_form = ReviewForm(request.POST)
+
+        if ticket_form.is_valid() and review_form.is_valid():
+            # 1. Sauvegarde du Ticket
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+
+            # 2. Sauvegarde de la Critique liée
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+
+            return redirect("home")
+
+    context = {
+        "ticket_form": ticket_form,
+        "review_form": review_form,
+    }
+    return render(request, "authentication/review_create.html", context)

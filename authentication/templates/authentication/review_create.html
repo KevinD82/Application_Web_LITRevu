@@ -1,0 +1,40 @@
+{% extends 'authentication/base.html' %}
+
+{% block title %}Créer une critique - LITRevu{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card" style="max-width: 650px;">
+        <h2>Créer une critique</h2>
+        <p class="auth-subtitle">Vous créez un ticket et votre critique associée en même temps</p>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <fieldset style="border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                <legend style="font-weight: 700; color: var(--primary-color); padding: 0 0.5rem;">Livre / Article</legend>
+                {% for field in ticket_form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <fieldset style="border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                <legend style="font-weight: 700; color: var(--primary-color); padding: 0 0.5rem;">Votre Critique</legend>
+                {% for field in review_form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <button type="submit" class="btn-primary">Envoyer la critique</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,17 +1,14 @@
-/* --- Google Fonts --- */
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
 :root {
-    --bg-color: #f7f5f0;        /* Fond papier crème soft */
-    --card-bg: #ffffff;         /* Fond des cartes blanc */
-    --primary-color: #1e293b;   /* Bleu encre très foncé */
-    --accent-color: #9a3412;    /* Terracotta / Bordeaux chaleureux */
-    --accent-hover: #7c2d12;
-    --text-color: #334155;      /* Gris texte lisible */
-    --text-muted: #64748b;     /* Gris adouci */
+    --primary-color: #1a1a1a;
+    --accent-color: #a33816;
+    --accent-hover: #822c11;
+    --bg-color: #f8f6f0;
+    --card-bg: #ffffff;
     --border-color: #e2e8f0;
+    --text-color: #2d3748;
+    --text-muted: #718096;
     --radius: 12px;
-    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 * {
@@ -21,126 +18,78 @@
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
-    line-height: 1.6;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    line-height: 1.5;
 }
 
-/* Polices littéraires pour les titres */
-h1, h2, h3 {
-    font-family: 'Merriweather', serif;
-    color: var(--primary-color);
-}
-
-/* --- Barre de Navigation & Header --- */
+/* Header & Nav */
 .navbar {
-    background-color: var(--card-bg);
+    background-color: #ffffff;
     border-bottom: 1px solid var(--border-color);
     padding: 0.75rem 2rem;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-/* Logo détouré (à gauche) */
-.brand-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-}
-
-.brand-logo:hover {
-    opacity: 0.85;
-}
-
-.logo-img {
-    height: 80px; /* Taille optimisée pour le logo */
+.nav-brand .logo {
+    height: 80px; /* Redimensionnement du logo */
     width: auto;
-    object-fit: contain;
     display: block;
+    object-fit: contain;
 }
 
-/* Navigation Centrale (au milieu) */
 .nav-center {
     display: flex;
-    gap: 1.75rem;
-    align-items: center;
+    gap: 2rem;
 }
 
 .nav-item {
     text-decoration: none;
-    color: var(--text-muted);
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 0.4rem 0.2rem;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
-}
-
-.nav-item:hover, .nav-item.active {
-    color: var(--accent-color);
-    border-bottom-color: var(--accent-color);
-}
-
-/* Espace Utilisateur (à droite) */
-.nav-links {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.nav-links a {
-    text-decoration: none;
     color: var(--text-color);
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
+    font-weight: 500;
+    padding-bottom: 0.25rem;
+}
+
+.nav-item.active {
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .user-badge {
-    background-color: #f1f5f9;
-    padding: 0.4rem 0.85rem;
+    background-color: #edf2f7;
+    padding: 0.4rem 0.8rem;
     border-radius: 20px;
-    font-size: 0.85rem;
-    color: var(--primary-color);
-    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
 .btn-logout {
-    color: #dc2626 !important;
-    font-size: 0.85rem;
+    color: var(--accent-color);
     text-decoration: none;
     font-weight: 600;
-    padding: 0.4rem 0.75rem;
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
 }
 
-.btn-logout:hover {
-    background-color: #fef2f2;
-}
-
-/* --- Container Général --- */
-.container {
+/* Layout */
+.main-container {
     max-width: 900px;
-    width: 100%;
     margin: 2rem auto;
     padding: 0 1rem;
-    flex: 1;
 }
 
-/* --- Structure des Cartes d'Authentification --- */
+/* Formulaires & Cartes Auth */
 .auth-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 70vh;
 }
 
 .auth-card {
@@ -148,98 +97,98 @@ h1, h2, h3 {
     padding: 2.5rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
     width: 100%;
-    max-width: 440px;
+    border: 1px solid var(--border-color);
 }
 
-.auth-card h2 {
-    text-align: center;
-    margin-bottom: 0.5rem;
-    font-size: 1.8rem;
-}
-
-.auth-subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
-}
-
-/* --- Formulaires --- */
 .form-group {
     margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 0.4rem;
     font-weight: 600;
+    margin-bottom: 0.4rem;
     font-size: 0.9rem;
 }
 
-.form-group input {
-    width: 100%;
-    padding: 0.75rem 1rem;
+.form-group input, 
+.form-group textarea, 
+.form-group select {
+    padding: 0.75rem;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 1rem;
-    font-family: inherit;
-    background-color: #fafafa;
-    transition: all 0.2s ease;
 }
 
-.form-group input:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(154, 52, 18, 0.15);
-}
-
-/* --- Boutons principaux --- */
 .btn-primary {
-    width: 100%;
-    padding: 0.85rem;
     background-color: var(--accent-color);
-    color: #ffffff;
+    color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    margin-top: 0.5rem;
+    width: 100%;
 }
 
 .btn-primary:hover {
     background-color: var(--accent-hover);
 }
 
-.btn-primary:active {
-    transform: scale(0.99);
+/* Boutons d'actions Flux */
+.feed-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-.auth-footer {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: var(--text-muted);
+.feed-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
 }
 
-.auth-footer a {
-    color: var(--accent-color);
+.btn-action {
+    background-color: var(--accent-color);
+    color: #ffffff !important;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
     font-weight: 600;
     text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.auth-footer a:hover {
-    text-decoration: underline;
+/* Cartes */
+.feed-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
 }
 
-/* Messages d'erreur */
-.errorlist {
-    color: #dc2626;
-    list-style: none;
+.card-header {
+    display: flex;
+    justify-content: space-between;
     font-size: 0.85rem;
-    margin-top: 0.3rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.stars {
+    color: #f59e0b;
+    font-size: 1.1rem;
+}
+
+.ticket-embedded {
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
 }
