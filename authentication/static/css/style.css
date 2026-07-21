@@ -5,7 +5,7 @@
     --bg-color: #f7f5f0;        /* Fond papier crème soft */
     --card-bg: #ffffff;         /* Fond des cartes blanc */
     --primary-color: #1e293b;   /* Bleu encre très foncé */
-    --accent-color: #9a3412;    /* Terracotta/Bordeaux chaleureux */
+    --accent-color: #9a3412;    /* Terracotta / Bordeaux chaleureux */
     --accent-hover: #7c2d12;
     --text-color: #334155;      /* Gris texte lisible */
     --text-muted: #64748b;     /* Gris adouci */
@@ -30,48 +30,103 @@ body {
     flex-direction: column;
 }
 
-/* Titles styled like literary typography */
-h1, h2, h3, .brand-logo {
+/* Polices littéraires pour les titres */
+h1, h2, h3 {
     font-family: 'Merriweather', serif;
     color: var(--primary-color);
 }
 
-/* --- Navigation Header --- */
+/* --- Barre de Navigation & Header --- */
 .navbar {
     background-color: var(--card-bg);
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem 2rem;
+    padding: 0.75rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
+/* Logo détouré (à gauche) */
 .brand-logo {
-    font-size: 1.5rem;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    color: var(--accent-color);
-    letter-spacing: -0.5px;
+    transition: opacity 0.2s ease;
 }
 
+.brand-logo:hover {
+    opacity: 0.85;
+}
+
+.logo-img {
+    height: 80px; /* Taille optimisée pour le logo */
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* Navigation Centrale (au milieu) */
+.nav-center {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.4rem 0.2rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+}
+
+/* Espace Utilisateur (à droite) */
 .nav-links {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: center;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--text-color);
-    font-weight: 500;
-    transition: color 0.2s;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
 }
 
-.nav-links a:hover {
-    color: var(--accent-color);
+.user-badge {
+    background-color: #f1f5f9;
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
 }
 
-/* --- Layout Container --- */
+.btn-logout {
+    color: #dc2626 !important;
+    font-size: 0.85rem;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-logout:hover {
+    background-color: #fef2f2;
+}
+
+/* --- Container Général --- */
 .container {
     max-width: 900px;
     width: 100%;
@@ -80,12 +135,12 @@ h1, h2, h3, .brand-logo {
     flex: 1;
 }
 
-/* --- Auth Card (Login & Signup) --- */
+/* --- Structure des Cartes d'Authentification --- */
 .auth-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 75vh;
+    min-height: 70vh;
 }
 
 .auth-card {
@@ -111,7 +166,7 @@ h1, h2, h3, .brand-logo {
     margin-bottom: 2rem;
 }
 
-/* --- Forms Styling --- */
+/* --- Formulaires --- */
 .form-group {
     margin-bottom: 1.25rem;
 }
@@ -131,22 +186,22 @@ h1, h2, h3, .brand-logo {
     font-size: 1rem;
     font-family: inherit;
     background-color: #fafafa;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
 
 .form-group input:focus {
     outline: none;
     border-color: var(--accent-color);
-    background-color: #fff;
+    background-color: #ffffff;
     box-shadow: 0 0 0 3px rgba(154, 52, 18, 0.15);
 }
 
-/* --- Buttons --- */
+/* --- Boutons principaux --- */
 .btn-primary {
     width: 100%;
     padding: 0.85rem;
     background-color: var(--accent-color);
-    color: white;
+    color: #ffffff;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
@@ -181,7 +236,7 @@ h1, h2, h3, .brand-logo {
     text-decoration: underline;
 }
 
-/* Error messages */
+/* Messages d'erreur */
 .errorlist {
     color: #dc2626;
     list-style: none;
