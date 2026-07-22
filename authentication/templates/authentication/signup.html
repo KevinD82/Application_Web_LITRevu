@@ -1,35 +1,41 @@
 {% extends 'authentication/base.html' %}
+{% load static %}
 
 {% block title %}Inscription - LITRevu{% endblock %}
 
 {% block content %}
 <div class="auth-wrapper">
-    <div class="auth-card">
-        <h2>Créer un compte</h2>
-        <p class="auth-subtitle">Rejoignez la communauté des lecteurs LITRevu</p>
+    <div class="auth-card" style="max-width: 450px; text-align: center;">
+        
+        <!-- En-tête visuel LITRevu -->
+        <div class="auth-brand" style="margin-bottom: 1.5rem;">
+            <img src="{% static 'images/logo.png' %}" alt="LITRevu Logo" class="logo" style="height: 60px; margin: 0 auto 0.5rem auto; display: block;">
+            <h1 style="font-size: 1.8rem; font-weight: 700; color: var(--primary-color);">LITRevu</h1>
+            <p class="auth-subtitle" style="color: var(--text-muted); font-size: 0.95rem;">
+                Créer un compte pour rejoindre la communauté
+            </p>
+        </div>
 
-        <form method="post">
+        <form method="post" style="text-align: left;">
             {% csrf_token %}
-
+            
             {% for field in form %}
                 <div class="form-group">
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {{ field }}
                     {% if field.help_text %}
-                        <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 0.2rem;">
-                            {{ field.help_text }}
-                        </small>
+                        <small style="color: var(--text-muted); font-size: 0.75rem;">{{ field.help_text }}</small>
                     {% endif %}
                     {{ field.errors }}
                 </div>
             {% endfor %}
 
-            <button type="submit" class="btn-primary">S'inscrire</button>
+            <button type="submit" class="btn-primary" style="margin-top: 1rem;">S'inscrire</button>
         </form>
 
-        <div class="auth-footer">
-            Déjà inscrit ? <a href="{% url 'login' %}">Se connecter</a>
-        </div>
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+            Déjà inscrit ? <a href="{% url 'login' %}" style="color: var(--accent-color); font-weight: 600; text-decoration: none;">Connectez-vous ici</a>
+        </p>
     </div>
 </div>
 {% endblock %}

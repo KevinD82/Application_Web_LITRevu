@@ -1,42 +1,46 @@
 {% extends 'authentication/base.html' %}
+{% load static %}
 
 {% block title %}Connexion - LITRevu{% endblock %}
 
 {% block content %}
 <div class="auth-wrapper">
-    <div class="auth-card">
-        <h2>Connexion</h2>
-        <p class="auth-subtitle">Partagez vos critiques de livres et articles</p>
+    <div class="auth-card" style="max-width: 450px; text-align: center;">
+        
+        <!-- En-tête visuel LITRevu -->
+        <div class="auth-brand" style="margin-bottom: 1.5rem;">
+            <img src="{% static 'images/logo.png' %}" alt="LITRevu Logo" class="logo" style="height: 60px; margin: 0 auto 0.5rem auto; display: block;">
+            <h1 style="font-size: 1.8rem; font-weight: 700; color: var(--primary-color);">LITRevu</h1>
+            <p class="auth-subtitle" style="color: var(--text-muted); font-size: 0.95rem;">
+                Partagez vos critiques de livres et d'articles
+            </p>
+        </div>
 
-        <form method="post">
+        {% if message %}
+            <p style="color: #dc2626; background-color: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem;">
+                {{ message }}
+            </p>
+        {% endif %}
+
+        <form method="post" style="text-align: left;">
             {% csrf_token %}
             
-            {% if form.non_field_errors %}
-                <ul class="errorlist">
-                    {% for error in form.non_field_errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-
             <div class="form-group">
                 <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
                 {{ form.username }}
-                {{ form.username.errors }}
             </div>
 
             <div class="form-group">
                 <label for="{{ form.password.id_for_label }}">Mot de passe</label>
                 {{ form.password }}
-                {{ form.password.errors }}
             </div>
 
-            <button type="submit" class="btn-primary">Se connecter</button>
+            <button type="submit" class="btn-primary" style="margin-top: 1rem;">Se connecter</button>
         </form>
 
-        <div class="auth-footer">
-            Pas encore de compte ? <a href="{% url 'signup' %}">Inscrivez-vous ici</a>
-        </div>
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+            Pas encore de compte ? <a href="{% url 'signup' %}" style="color: var(--accent-color); font-weight: 600; text-decoration: none;">Inscrivez-vous ici</a>
+        </p>
     </div>
 </div>
 {% endblock %}

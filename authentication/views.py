@@ -10,6 +10,10 @@ from litrevu.models import Ticket, Review
 # login_page : Affiche le formulaire de connexion.
 def login_page(request):
     """Gère la connexion d'un utilisateur."""
+    # Si l'utilisateur est déjà connecté, on le redirige directement sur le flux !
+    if request.user.is_authenticated:
+        return redirect("home")
+
     form = LoginForm()
     message = ""
 

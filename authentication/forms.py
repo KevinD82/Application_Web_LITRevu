@@ -21,11 +21,29 @@ class LoginForm(forms.Form):
     )
 
 
-# Formulaire d'inscription
+# Formulaire d'inscription (personnalisé en français)
 class SignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = ("username",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Modification des libellés (Labels)
+        self.fields["username"].label = "Nom d'utilisateur"
+        self.fields["password1"].label = "Mot de passe"
+        self.fields["password2"].label = "Confirmation du mot de passe"
+
+        # Modification des textes d'aide
+        self.fields["username"].help_text = "Requis. 150 caractères maximum."
+        self.fields["password1"].help_text = (
+            "Votre mot de passe doit contenir au moins 8 caractères, "
+            "incluant au moins 1 majuscule et 1 caractère spécial."
+        )
+        self.fields[
+            "password2"
+        ].help_text = "Saisissez le même mot de passe que précédemment."
 
 
 # Formulaire de Ticket (demande de critique)
