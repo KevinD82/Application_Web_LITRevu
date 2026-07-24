@@ -1,7 +1,10 @@
+from typing import ClassVar
+
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from litrevu.models import Ticket, Review
+from django.contrib.auth.forms import UserCreationForm
+
+from litrevu.models import Review, Ticket
 
 
 # Formulaire de connexion basique
@@ -50,17 +53,21 @@ class SignupForm(UserCreationForm):
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ["title", "description", "image"]
-        labels = {
+        fields = ("title", "description", "image")
+
+        # Ajout de l'annotation ClassVar[dict] pour satisfaire Ruff
+        labels: ClassVar[dict] = {
             "title": "Titre du livre / de l'article",
             "description": "Description ou question",
             "image": "Image de couverture",
         }
-        widgets = {
+        widgets: ClassVar[dict] = {
             "description": forms.Textarea(
                 attrs={
                     "rows": 4,
-                    "placeholder": "De quoi parle ce livre ? Quelle est votre question ?",
+                    "placeholder": (
+                        "De quoi parle ce livre ? Quelle est votre question ?"
+                    ),
                 }
             ),
         }
@@ -68,7 +75,7 @@ class TicketForm(forms.ModelForm):
 
 # Formulaire de Critique (Review)
 class ReviewForm(forms.ModelForm):
-    RATING_CHOICES = [(i, f"- {i}") for i in range(6)]
+    RATING_CHOICES = tuple((i, f"- {i}") for i in range(6))
 
     rating = forms.ChoiceField(
         choices=RATING_CHOICES, widget=forms.RadioSelect, label="Note"
@@ -76,12 +83,14 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ["headline", "rating", "body"]
-        labels = {
+        fields = ("headline", "rating", "body")
+
+        # Ajout de l'annotation ClassVar[dict] pour satisfaire Ruff
+        labels: ClassVar[dict] = {
             "headline": "Titre de la critique",
             "body": "Commentaire",
         }
-        widgets = {
+        widgets: ClassVar[dict] = {
             "body": forms.Textarea(
                 attrs={
                     "rows": 4,
