@@ -1,10 +1,13 @@
 from itertools import chain
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
+
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Value, CharField
-from .forms import LoginForm, SignupForm, TicketForm, ReviewForm
-from litrevu.models import Ticket, Review
+from django.db.models import CharField, Value
+from django.shortcuts import redirect, render
+
+from litrevu.models import Review, Ticket
+
+from .forms import LoginForm, ReviewForm, SignupForm, TicketForm
 
 
 # login_page : Affiche le formulaire de connexion.
@@ -75,7 +78,7 @@ def home(request):
     context = {
         "posts": posts,
     }
-    return render(request, "authentication/home.html", context)
+    return render(request, "litrevu/home.html", context)
 
 
 # ticket_create : Gère la création d'un Ticket seul.
@@ -92,7 +95,7 @@ def ticket_create(request):
     else:
         form = TicketForm()
 
-    return render(request, "authentication/ticket_create.html", context={"form": form})
+    return render(request, "litrevu/ticket_create.html", context={"form": form})
 
 
 # review_create : Gère la création simultanée d'un Ticket et d'une Critique.
@@ -124,4 +127,4 @@ def review_create(request):
         "ticket_form": ticket_form,
         "review_form": review_form,
     }
-    return render(request, "authentication/review_create.html", context)
+    return render(request, "litrevu/review_create.html", context)
