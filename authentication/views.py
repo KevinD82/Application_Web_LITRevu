@@ -10,7 +10,6 @@ from litrevu.models import Review, Ticket, UserFollows
 
 from .forms import LoginForm, ReviewForm, SignupForm, TicketForm
 
-
 # --- AUTHENTIFICATION ---
 
 def login_page(request):
