@@ -8,7 +8,7 @@
     --text-color: #2d3748;
     --text-muted: #718096;
     --radius: 12px;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -21,7 +21,7 @@ body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 /* Header & Nav */
@@ -32,10 +32,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .nav-brand .logo {
-    height: 80px; /* Redimensionnement du logo */
+    height: 70px;
     width: auto;
     display: block;
     object-fit: contain;
@@ -51,8 +52,10 @@ body {
     color: var(--text-color);
     font-weight: 500;
     padding-bottom: 0.25rem;
+    transition: color 0.2s ease;
 }
 
+.nav-item:hover,
 .nav-item.active {
     color: var(--accent-color);
     border-bottom: 2px solid var(--accent-color);
@@ -66,22 +69,28 @@ body {
 
 .user-badge {
     background-color: #edf2f7;
-    padding: 0.4rem 0.8rem;
+    padding: 0.4rem 0.9rem;
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 600;
+    color: var(--text-color);
 }
 
 .btn-logout {
     color: var(--accent-color);
     text-decoration: none;
     font-weight: 600;
+    transition: color 0.2s;
+}
+
+.btn-logout:hover {
+    color: var(--accent-hover);
 }
 
 /* Layout */
 .main-container {
-    max-width: 900px;
-    margin: 2rem auto;
+    max-width: 800px;
+    margin: 2.5rem auto;
     padding: 0 1rem;
 }
 
@@ -118,23 +127,52 @@ body {
 .form-group select {
     padding: 0.75rem;
     border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus, 
+.form-group select:focus {
+    border-color: var(--accent-color);
 }
 
 .btn-primary {
     background-color: var(--accent-color);
-    color: white;
+    color: white !important;
     border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px; /* Forme pilule plus esthétique */
     font-weight: 600;
     cursor: pointer;
-    width: 100%;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(163, 56, 22, 0.2);
 }
 
 .btn-primary:hover {
     background-color: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(163, 56, 22, 0.3);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #edf2f7;
 }
 
 /* Boutons d'actions Flux */
@@ -143,7 +181,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .feed-actions {
@@ -155,20 +193,26 @@ body {
 .btn-action {
     background-color: var(--accent-color);
     color: #ffffff !important;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
+    padding: 0.75rem 1.75rem;
+    border-radius: 25px;
     font-weight: 600;
     text-decoration: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(163, 56, 22, 0.2);
+    transition: all 0.2s ease;
 }
 
-/* Cartes */
+.btn-action:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+/* Cartes du Flux */
 .feed-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    padding: 1.75rem;
+    margin-bottom: 1.75rem;
     box-shadow: var(--shadow);
 }
 
@@ -180,15 +224,35 @@ body {
     margin-bottom: 0.75rem;
 }
 
-.stars {
-    color: #f59e0b;
-    font-size: 1.1rem;
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
 }
 
+.stars {
+    color: #f59e0b;
+    font-size: 1rem;
+}
+
+/* Amélioration visuelle du Ticket dans la Critique */
 .ticket-embedded {
     background-color: #f8fafc;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1rem;
+    border-left: 4px solid var(--accent-color); /* Ligne d'accentuation élégante */
+    border-radius: 4px 8px 8px 4px;
+    padding: 1rem 1.25rem;
     margin-top: 1rem;
+}
+
+.ticket-embedded p {
+    font-size: 0.9rem;
+}
+
+/* Conteneur pour aligner le petit bouton du ticket en bas à droite */
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.25rem;
 }

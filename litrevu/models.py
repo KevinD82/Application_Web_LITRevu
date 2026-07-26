@@ -29,3 +29,20 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.headline} - {self.rating}/5"
+
+
+class UserFollows(models.Model):
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="following",
+    )
+    followed_user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="followed_by",
+    )
+
+    class Meta:
+        # Empêche un utilisateur de suivre deux fois la même personne
+        unique_together = ("user", "followed_user")

@@ -1,0 +1,42 @@
+{% extends 'authentication/base.html' %}
+
+{% block title %}Abonnements - LITRevu{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h2>Suivre d'autres utilisateurs</h2>
+    
+    <!-- Formulaire pour suivre un utilisateur -->
+    <form method="post" style="margin-bottom: 30px;">
+        {% csrf_token %}
+        <div style="display: flex; gap: 10px;">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" required style="flex: 1; padding: 8px;">
+            <button type="submit" style="padding: 8px 16px;">Envoyer</button>
+        </div>
+    </form>
+
+    <h2>Abonnements</h2>
+    <ul>
+        {% for follow in following %}
+            <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span>{{ follow.followed_user.username }}</span>
+                <form method="post" action="{% url 'unsubscribe' follow.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger">Désabonner</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>Vous ne suivez aucun utilisateur pour le moment.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Abonnés</h2>
+    <ul>
+        {% for follower in followers %}
+            <li>{{ follower.user.username }}</li>
+        {% empty %}
+            <li>Aucun utilisateur ne vous suit pour le moment.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

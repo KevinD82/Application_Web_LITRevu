@@ -1,28 +1,19 @@
 {% extends 'authentication/base.html' %}
 
-{% block title %}Flux - LITRevu{% endblock %}
+{% block title %}Mes Publications - LITRevu{% endblock %}
 
 {% block content %}
 <div class="main-container">
     
-    <!-- Boutons d'action du haut -->
-    <div class="feed-header">
-        <div class="feed-actions">
-            <a href="{% url 'ticket_create' %}" class="btn-action">+ Demander une critique</a>
-            <a href="{% url 'review_create' %}" class="btn-action">✍️ Créer une critique</a>
-        </div>
-        <h2>Flux d'actualité</h2>
-    </div>
+    <h2 style="text-align: center; margin-bottom: 30px;">Vos publications</h2>
 
-    <!-- Boucle sur les éléments du flux -->
     {% for item in posts %}
         
-        <!-- CAS 1 : Si l'élément est un TICKET -->
+        <!-- CAS 1 : TICKET de l'utilisateur -->
         {% if item.content_type == 'TICKET' %}
             <div class="feed-card" style="display: flex; flex-direction: column;">
-                <!-- En-tête : Information à gauche, Date en haut à droite -->
                 <div class="card-header">
-                    <span>{% if item.user == request.user %}Vous avez{% else %}{{ item.user.username }} a{% endif %} demandé une critique</span>
+                    <span>Vous avez demandé une critique</span>
                     <span>{{ item.time_created|date:"H:i, d F Y" }}</span>
                 </div>
                 
@@ -30,26 +21,26 @@
                 <p>{{ item.description }}</p>
 
                 {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.title }}" style="max-width: 200px; border-radius: 6px; display: block; margin-top: 12px;">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" style="max-width: 180px; border-radius: 6px; display: block; margin-top: 12px;">
                 {% endif %}
 
-                <!-- Bas de carte : Bouton aligné tout en bas à droite -->
-                <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
-                    <a href="{% url 'review_create_reply' item.id %}" class="btn-primary" style="width: auto; font-size: 0.85rem; padding: 0.5rem 1.25rem;">Créer une critique</a>
+                <!-- BOUTONS DE GESTION -->
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                    <a href="{% url 'ticket_update' item.id %}" class="btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 1rem; width: auto; text-decoration: none;">Modifier</a>
+                    <a href="{% url 'ticket_delete' item.id %}" class="btn-primary" style="font-size: 0.85rem; padding: 0.4rem 1rem; width: auto; text-decoration: none;">Supprimer</a>
                 </div>
             </div>
 
-        <!-- CAS 2 : Si l'élément est une CRITIQUE (REVIEW) -->
+        <!-- CAS 2 : CRITIQUE de l'utilisateur -->
         {% elif item.content_type == 'REVIEW' %}
-            <div class="feed-card">
+            <div class="feed-card" style="display: flex; flex-direction: column;">
                 <div class="card-header">
-                    <span>{% if item.user == request.user %}Vous avez{% else %}{{ item.user.username }} a{% endif %} publié une critique</span>
+                    <span>Vous avez publié une critique</span>
                     <span>{{ item.time_created|date:"H:i, d F Y" }}</span>
                 </div>
 
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                     <h3 class="card-title" style="margin-bottom: 0;">{{ item.headline }}</h3>
-                    <!-- Étoiles de notation -->
                     <span class="stars">
                         {% if item.rating == 5 %}★★★★★
                         {% elif item.rating == 4 %}★★★★☆
@@ -61,17 +52,23 @@
 
                 <p>{{ item.body }}</p>
 
-                <!-- Ticket associé à la critique -->
+                <!-- Ticket associé -->
                 <div class="ticket-embedded">
                     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">Ticket de {{ item.ticket.user.username }}</p>
                     <strong style="color: var(--primary-color);">{{ item.ticket.title }}</strong>
                     <p style="margin-top: 4px; font-size: 0.9rem;">{{ item.ticket.description }}</p>
                 </div>
+
+                <!-- BOUTONS DE GESTION -->
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                    <a href="{% url 'review_update' item.id %}" class="btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 1rem; width: auto; text-decoration: none;">Modifier</a>
+                    <a href="{% url 'review_delete' item.id %}" class="btn-primary" style="font-size: 0.85rem; padding: 0.4rem 1rem; width: auto; text-decoration: none;">Supprimer</a>
+                </div>
             </div>
         {% endif %}
 
     {% empty %}
-        <p style="text-align: center; color: var(--text-muted);">Aucune publication à afficher pour le moment.</p>
+        <p style="text-align: center; color: var(--text-muted);">Vous n'avez encore publié aucun ticket ni aucune critique.</p>
     {% endfor %}
 
 </div>

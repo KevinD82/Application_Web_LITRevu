@@ -1,14 +1,20 @@
 {% extends 'authentication/base.html' %}
 
-{% block title %}Créer un ticket - LITRevu{% endblock %}
+{% block title %}{% if edit_mode %}Modifier le ticket{% else %}Créer un ticket{% endif %} - LITRevu{% endblock %}
 
 {% block content %}
 <div class="auth-wrapper">
     <div class="auth-card" style="max-width: 600px;">
-        <h2>Demander une critique</h2>
-        <p class="auth-subtitle">Demandez l'avis de la communauté sur un livre ou un article</p>
+        <h2>{% if edit_mode %}Modifier le ticket{% else %}Demander une critique{% endif %}</h2>
+        <p class="auth-subtitle">
+            {% if edit_mode %}
+                Modifiez les informations de votre ticket ci-dessous.
+            {% else %}
+                Demandez l'avis de la communauté sur un livre ou un article.
+            {% endif %}
+        </p>
 
-        <!-- IMPORTANT: enctype="multipart/form-data" est obligatoire pour envoyer des images -->
+        <!-- enctype="multipart/form-data" est obligatoire pour envoyer/modifier des images -->
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -20,7 +26,12 @@
                 </div>
             {% endfor %}
 
-            <button type="submit" class="btn-primary">Publier le ticket</button>
+            <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
+                <a href="{% url 'posts' %}" class="btn-secondary" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ccc; border-radius: 4px; color: #333; align-self: center;">Annuler</a>
+                <button type="submit" class="btn-primary">
+                    {% if edit_mode %}Enregistrer les modifications{% else %}Publier le ticket{% endif %}
+                </button>
+            </div>
         </form>
     </div>
 </div>

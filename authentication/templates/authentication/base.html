@@ -20,8 +20,8 @@
 
         <nav class="nav-center">
             <a href="{% url 'home' %}" class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Flux</a>
-            <a href="#" class="nav-item">Mes posts</a>
-            <a href="#" class="nav-item">Abonnements</a>
+            <a href="{% url 'posts' %}" class="nav-item {% if request.resolver_match.url_name == 'posts' %}active{% endif %}">Mes posts</a>
+            <a href="{% url 'subscriptions' %}" class="nav-item {% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">Abonnements</a>
         </nav>
 
         <div class="nav-right">
