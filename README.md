@@ -22,10 +22,10 @@ Mise en place du cœur de l'application avec la création des modèles nécessai
 
 ### 🛠️ Fonctionnalités réalisées
 * **Application `litrevu`** : Création de l'application principale du projet.
-* **Modèle `Ticket`** : Permet aux utilisateurs de demander une critique en renseignant un titre, une description et une image de couverture[cite: 28, 29].
+* **Modèle `Ticket`** : Permet aux utilisateurs de demander une critique en renseignant un titre, une description et une image de couverture.
 * **Modèle `Review`** : Permet de publier une critique liée à un Ticket, avec un système de note (0 à 5), un titre et un corps de texte.
 * **Modèle `UserFollows`** : Gestion du système d'abonnements croisés entre utilisateurs avec contrainte d'unicité pour éviter les doublons.
-* **Gestion des Médias** : Intégration de la bibliothèque Pillow pour la gestion des fichiers images des tickets[cite: 28, 29].
+* **Gestion des Médias** : Intégration de la bibliothèque Pillow pour la gestion des fichiers images des tickets.
 
 ---
 
@@ -48,7 +48,7 @@ Mise en place de la logique métier permettant aux utilisateurs d'interagir entr
 Implémentation complète des interfaces permettant la création, la lecture, la modification et la suppression des contenus littéraires.
 
 ### 🛠️ Fonctionnalités réalisées
-* **Création de Ticket seul** : Formulaire permettant de demander une critique sur un livre ou un article[cite: 28, 29].
+* **Création de Ticket seul** : Formulaire permettant de demander une critique sur un livre ou un article.
 * **Création de Critique seule** : Formulaire pour répondre à un ticket existant (notation de 0 à 5 et commentaire).
 * **Création combinée (Ticket + Critique)** : Formulaire unique permettant de poster simultanément un nouveau ticket et sa critique associée.
 * **Modification et Suppression** : Sécurisation des vues pour que seuls les auteurs respectifs puissent modifier ou supprimer leurs tickets et critiques.
