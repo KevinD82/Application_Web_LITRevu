@@ -1,18 +1,28 @@
+<!-- Héritage de la structure de base du site -->
 {% extends 'authentication/base.html' %}
 
+<!-- Définition dynamique du titre de la page pour l'onglet du navigateur -->
 {% block title %}Supprimer la critique - LITRevu{% endblock %}
 
 {% block content %}
+<!-- Conteneur principal de la page -->
 <div class="main-container">
+    <!-- Carte d'authentification/alerte centrée avec une largeur maximale de 500px -->
     <div class="auth-card" style="text-align: center; max-width: 500px; margin: 0 auto;">
+        <!-- Titre principal de la page de suppression -->
         <h2>Supprimer la critique</h2>
+        <!-- Message d'avertissement demandant une confirmation à l'utilisateur, avec affichage du titre de la critique -->
         <p style="margin: 20px 0; color: var(--text-muted);">
             Êtes-vous sûr de vouloir supprimer votre critique <strong>"{{ review.headline }}"</strong> ?
         </p>
 
+        <!-- Formulaire de suppression soumis en méthode POST -->
         <form method="post" style="display: flex; justify-content: center; gap: 15px;">
+            <!-- Jeton de sécurité anti-CSRF obligatoire sous Django -->
             {% csrf_token %}
+            <!-- Bouton de validation pour exécuter la suppression définitive -->
             <button type="submit" class="btn-primary">Confirmer la suppression</button>
+            <!-- Bouton d'annulation redirigeant l'utilisateur vers ses publications -->
             <a href="{% url 'posts' %}" class="btn-secondary">Annuler</a>
         </form>
     </div>

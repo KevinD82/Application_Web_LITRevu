@@ -1,17 +1,24 @@
+<!-- Héritage de la structure de base du site -->
 {% extends 'authentication/base.html' %}
 
+<!-- Titre dynamique de la page : s'adapte selon qu'on est en mode édition ou création -->
 {% block title %}{% if edit_mode %}Modifier la critique{% else %}Créer une critique{% endif %} - LITRevu{% endblock %}
 
 {% block content %}
+<!-- Conteneur global centré pour le formulaire avec une largeur maximale de 600px -->
 <div class="auth-wrapper">
     <div class="auth-card" style="max-width: 600px;">
+        <!-- En-tête dynamique du formulaire (Modification vs Création) -->
         <h2>{% if edit_mode %}Modifier votre critique{% else %}Créer une critique{% endif %}</h2>
 
+        <!-- Formulaire soumis en POST acceptant les fichiers (images éventuelles) -->
         <form method="post" enctype="multipart/form-data">
+            <!-- Jeton de sécurité anti-CSRF obligatoire -->
             {% csrf_token %}
 
+            <!-- Condition : Si un ticket existe (cas d'une réponse à un ticket existant OU modification d'une critique) -->
             {% if ticket %}
-                <!-- CAS : Réponse à un ticket existant OU Modification d'une critique -->
+                <!-- Sous-titre explicatif contextuel -->
                 <p class="auth-subtitle">
                     {% if edit_mode %}
                         Vous modifiez votre critique pour le ticket de {{ ticket.user.username }}
@@ -20,14 +27,17 @@
                     {% endif %}
                 </p>
                 
+                <!-- Encadré de prévisualisation du ticket d'origine -->
                 <div class="card ticket-preview" style="background-color: #f9f9f9; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #ddd;">
                     <h3>{{ ticket.title }}</h3>
                     <p>{{ ticket.description }}</p>
+                    <!-- Affichage conditionnel de l'image du ticket si elle est présente -->
                     {% if ticket.image %}
                         <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" style="max-width: 100%; height: auto; border-radius: 4px; margin-top: 10px;">
                     {% endif %}
                 </div>
 
+                <!-- Section dédiée aux champs du formulaire de critique -->
                 <h3>Votre critique</h3>
                 {% for field in review_form %}
                     <div class="form-group">
@@ -37,10 +47,11 @@
                     </div>
                 {% endfor %}
 
+            <!-- Condition alternative : Si aucun ticket n'existe (cas de la création simultanée d'un Ticket et d'une Critique) -->
             {% else %}
-                <!-- CAS : Création simultanée Ticket + Critique -->
                 <p class="auth-subtitle">Saisissez votre critique et créez le ticket associé</p>
 
+                <!-- Section du formulaire pour les informations du Ticket (Livre / Article) -->
                 <h3>Livre / Article</h3>
                 {% for field in ticket_form %}
                     <div class="form-group">
@@ -50,6 +61,7 @@
                     </div>
                 {% endfor %}
 
+                <!-- Section du formulaire pour les informations de la Critique -->
                 <h3 style="margin-top: 25px;">Critique</h3>
                 {% for field in review_form %}
                     <div class="form-group">
@@ -61,8 +73,11 @@
 
             {% endif %}
 
+            <!-- Barre d'actions en bas de formulaire (Boutons Annuler et Soumettre) -->
             <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
+                <!-- Bouton d'annulation redirigeant vers la liste des publications -->
                 <a href="{% url 'posts' %}" class="btn-secondary" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ccc; border-radius: 4px; color: #333; align-self: center;">Annuler</a>
+                <!-- Bouton de soumission dont le texte change selon le mode édition ou publication -->
                 <button type="submit" class="btn-primary">
                     {% if edit_mode %}Enregistrer les modifications{% else %}Publier la critique{% endif %}
                 </button>
