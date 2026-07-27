@@ -1,18 +1,31 @@
+<!-- Héritage de la structure globale du site définie dans base.html -->
 {% extends 'authentication/base.html' %}
 
+<!-- Définition du titre de la page spécifiquement pour l'onglet du navigateur -->
 {% block title %}Supprimer le ticket - LITRevu{% endblock %}
 
 {% block content %}
+<!-- Conteneur principal de la page -->
 <div class="main-container">
+    <!-- Carte d'alerte centrée horizontalement avec une largeur maximale de 500px -->
     <div class="auth-card" style="text-align: center; max-width: 500px; margin: 0 auto;">
+        <!-- Titre principal de la page de suppression -->
         <h2>Supprimer le ticket</h2>
+        
+        <!-- Message d'avertissement demandant une confirmation, incluant le titre du ticket dynamiquement -->
         <p style="margin: 20px 0; color: var(--text-muted);">
             Êtes-vous sûr de vouloir supprimer le ticket <strong>"{{ ticket.title }}"</strong> ?
         </p>
 
+        <!-- Formulaire de suppression soumis en méthode POST (nécessaire pour modifier/supprimer des données) -->
         <form method="post" style="display: flex; justify-content: center; gap: 15px;">
+            <!-- Jeton de sécurité anti-CSRF obligatoire pour prévenir les attaques inter-sites -->
             {% csrf_token %}
+            
+            <!-- Bouton de soumission qui déclenche la suppression effective dans la base de données -->
             <button type="submit" class="btn-primary">Confirmer la suppression</button>
+            
+            <!-- Lien d'annulation qui renvoie l'utilisateur vers la page de ses publications sans rien supprimer -->
             <a href="{% url 'posts' %}" class="btn-secondary">Annuler</a>
         </form>
     </div>

@@ -8,9 +8,6 @@ env/
 venv/
 ENV/
 
-# Base de données locale (SQLite)
-*.sqlite3
-
 # Fichiers de configuration de l'éditeur (VS Code)
 .vscode/
 

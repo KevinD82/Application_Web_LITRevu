@@ -1,11 +1,16 @@
+<!-- Héritage de la structure de base du site -->
 {% extends 'authentication/base.html' %}
 
+<!-- Titre dynamique de la page : s'adapte selon qu'on est en mode édition ou création -->
 {% block title %}{% if edit_mode %}Modifier le ticket{% else %}Créer un ticket{% endif %} - LITRevu{% endblock %}
 
 {% block content %}
+<!-- Conteneur global centré pour le formulaire avec une largeur maximale de 600px -->
 <div class="auth-wrapper">
     <div class="auth-card" style="max-width: 600px;">
+        <!-- Titre principal de la carte s'adaptant selon le mode (édition vs demande) -->
         <h2>{% if edit_mode %}Modifier le ticket{% else %}Demander une critique{% endif %}</h2>
+        <!-- Sous-titre explicatif dynamique guidant l'utilisateur -->
         <p class="auth-subtitle">
             {% if edit_mode %}
                 Modifiez les informations de votre ticket ci-dessous.
@@ -14,20 +19,28 @@
             {% endif %}
         </p>
 
-        <!-- enctype="multipart/form-data" est obligatoire pour envoyer/modifier des images -->
+        <!-- Formulaire soumis en POST, enctype="multipart/form-data" indispensable pour l'upload d'images -->
         <form method="post" enctype="multipart/form-data">
+            <!-- Jeton de sécurité anti-CSRF obligatoire sous Django -->
             {% csrf_token %}
 
+            <!-- Boucle d'affichage automatique pour chaque champ du formulaire de ticket -->
             {% for field in form %}
                 <div class="form-group">
+                    <!-- Libellé du champ ciblant l'ID du composant -->
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <!-- Affichage du champ du formulaire (input, textarea, etc.) -->
                     {{ field }}
+                    <!-- Affichage éventuel des messages d'erreur associés au champ -->
                     {{ field.errors }}
                 </div>
             {% endfor %}
 
+            <!-- Zone des boutons d'actions en bas de formulaire (Annuler / Soumettre) -->
             <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
+                <!-- Lien d'annulation redirigeant vers la page des publications personnelles -->
                 <a href="{% url 'posts' %}" class="btn-secondary" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ccc; border-radius: 4px; color: #333; align-self: center;">Annuler</a>
+                <!-- Bouton de soumission dont le texte varie selon qu'on édite ou qu'on publie -->
                 <button type="submit" class="btn-primary">
                     {% if edit_mode %}Enregistrer les modifications{% else %}Publier le ticket{% endif %}
                 </button>

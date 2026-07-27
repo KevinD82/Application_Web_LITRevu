@@ -4,26 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page dynamique avec un bloc surchargeable (par défaut : LITRevu) -->
     <title>{% block title %}LITRevu{% endblock %}</title>
-    <!-- Chargement du fichier CSS avec cache-busting (?v=1.1) -->
+    <!-- Chargement de la feuille de style CSS principale avec un paramètre de cache-busting (?v=1.1) pour forcer le rechargement -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}?v=1.1">
 </head>
 <body>
 
+    <!-- Barre de navigation affichée uniquement si l'utilisateur est authentifié -->
     {% if user.is_authenticated %}
     <header class="navbar">
+        <!-- Logo de la marque faisant office de lien vers le flux principal -->
         <div class="nav-brand">
             <a href="{% url 'home' %}">
                 <img src="{% static 'images/logo.png' %}" alt="LITRevu Logo" class="logo">
             </a>
         </div>
 
+        <!-- Menu de navigation central avec ajout dynamique de la classe 'active' selon la page courante -->
         <nav class="nav-center">
             <a href="{% url 'home' %}" class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Flux</a>
             <a href="{% url 'posts' %}" class="nav-item {% if request.resolver_match.url_name == 'posts' %}active{% endif %}">Mes posts</a>
             <a href="{% url 'subscriptions' %}" class="nav-item {% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">Abonnements</a>
         </nav>
 
+        <!-- Section de droite : affichage du nom de l'utilisateur connecté et lien de déconnexion -->
         <div class="nav-right">
             <span class="user-badge">👤 {{ user.username }}</span>
             <a href="{% url 'logout' %}" class="btn-logout">Déconnexion</a>
@@ -31,6 +36,7 @@
     </header>
     {% endif %}
 
+    <!-- Conteneur principal qui accueillera le contenu spécifique injecté par les templates enfants -->
     <main class="main-container">
         {% block content %}
         {% endblock %}

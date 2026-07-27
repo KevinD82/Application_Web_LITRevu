@@ -1,39 +1,57 @@
+<!-- Héritage de la structure de base globale du site -->
 {% extends 'authentication/base.html' %}
 
+<!-- Définition dynamique du titre de la page affiché dans l'onglet du navigateur -->
 {% block title %}Abonnements - LITRevu{% endblock %}
 
 {% block content %}
+<!-- Conteneur principal centré avec une largeur maximale de 600px et un espacement interne -->
 <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <!-- Titre de la section pour rechercher et suivre un nouvel utilisateur -->
     <h2>Suivre d'autres utilisateurs</h2>
     
-    <!-- Formulaire pour suivre un utilisateur -->
+    <!-- Formulaire de recherche/suivi d'un utilisateur par son nom d'utilisateur -->
     <form method="post" style="margin-bottom: 30px;">
+        <!-- Jeton de sécurité anti-CSRF obligatoire pour les requêtes POST sous Django -->
         {% csrf_token %}
+        <!-- Disposition flexible en ligne pour le champ de texte et le bouton d'envoi -->
         <div style="display: flex; gap: 10px;">
+            <!-- Champ de saisie obligatoire du nom d'utilisateur cible -->
             <input type="text" name="username" placeholder="Nom d'utilisateur" required style="flex: 1; padding: 8px;">
+            <!-- Bouton pour soumettre l'ajout de l'abonnement -->
             <button type="submit" style="padding: 8px 16px;">Envoyer</button>
         </div>
     </form>
 
+    <!-- Section listant les utilisateurs que l'utilisateur connecté suit actuellement -->
     <h2>Abonnements</h2>
     <ul>
+        <!-- Boucle sur chaque relation d'abonnement où l'utilisateur est l'acteur ("following") -->
         {% for follow in following %}
             <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <!-- Nom d'utilisateur de la personne suivie -->
                 <span>{{ follow.followed_user.username }}</span>
+                <!-- Formulaire individuel pour se désabonner, pointant vers la vue 'unsubscribe' avec l'ID du lien -->
                 <form method="post" action="{% url 'unsubscribe' follow.id %}">
                     {% csrf_token %}
+                    <!-- Bouton de désabonnement avec classe d'alerte/danger -->
                     <button type="submit" class="btn-danger">Désabonner</button>
                 </form>
             </li>
+        <!-- Message affiché si la liste des abonnements est vide -->
         {% empty %}
             <li>Vous ne suivez aucun utilisateur pour le moment.</li>
         {% endfor %}
     </ul>
 
+    <!-- Section listant les abonnés (les utilisateurs qui suivent l'utilisateur connecté) -->
     <h2>Abonnés</h2>
     <ul>
+        <!-- Boucle sur chaque relation où l'utilisateur connecté est la cible ("followers") -->
         {% for follower in followers %}
+            <!-- Affichage du nom d'utilisateur de l'abonné -->
             <li>{{ follower.user.username }}</li>
+        <!-- Message affiché si l'utilisateur n'a aucun abonné -->
         {% empty %}
             <li>Aucun utilisateur ne vous suit pour le moment.</li>
         {% endfor %}

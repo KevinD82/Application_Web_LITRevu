@@ -1,22 +1,25 @@
+/* Définition des variables globales (couleurs, rayons de bordure, ombres) */
 :root {
-    --primary-color: #1a1a1a;
-    --accent-color: #a33816;
-    --accent-hover: #822c11;
-    --bg-color: #f8f6f0;
-    --card-bg: #ffffff;
-    --border-color: #e2e8f0;
-    --text-color: #2d3748;
-    --text-muted: #718096;
-    --radius: 12px;
-    --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --primary-color: #1a1a1a;       /* Couleur principale sombre pour les titres */
+    --accent-color: #a33816;        /* Couleur d'accentuation (brique/rouge LITRevu) */
+    --accent-hover: #822c11;        /* Variante assombrie pour les états de survol */
+    --bg-color: #f8f6f0;            /* Couleur de fond générale de la page (beige clair) */
+    --card-bg: #ffffff;             /* Couleur de fond des cartes et blocs blancs */
+    --border-color: #e2e8f0;        /* Couleur standard des bordures et séparateurs */
+    --text-color: #2d3748;          /* Couleur principale du texte courant */
+    --text-muted: #718096;          /* Couleur du texte secondaire ou estompé (dates, notes) */
+    --radius: 12px;                 /* Rayon d'arrondi standard pour les cartes */
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Ombre douce portée pour le relief */
 }
 
+/* Réinitialisation universelle : suppression des marges et espacements par défaut, normalisation du box-sizing */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* Style global du corps de la page (typographie, couleurs de fond et interlignage) */
 body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-color);
@@ -24,7 +27,9 @@ body {
     line-height: 1.6;
 }
 
-/* Header & Nav */
+/* ==========================================
+   Header & Barre de navigation (Navbar)
+   ========================================== */
 .navbar {
     background-color: #ffffff;
     border-bottom: 1px solid var(--border-color);
@@ -35,6 +40,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
+/* Conteneur et dimensions de l'élément logo dans la barre de navigation */
 .nav-brand .logo {
     height: 70px;
     width: auto;
@@ -42,11 +48,13 @@ body {
     object-fit: contain;
 }
 
+/* Zone centrale contenant les liens de navigation principaux */
 .nav-center {
     display: flex;
     gap: 2rem;
 }
 
+/* Style de base des liens de navigation */
 .nav-item {
     text-decoration: none;
     color: var(--text-color);
@@ -55,18 +63,21 @@ body {
     transition: color 0.2s ease;
 }
 
+/* Effet au survol ou lorsque le lien de navigation correspond à la page active */
 .nav-item:hover,
 .nav-item.active {
     color: var(--accent-color);
     border-bottom: 2px solid var(--accent-color);
 }
 
+/* Zone de droite de la navbar (badge utilisateur et bouton de déconnexion) */
 .nav-right {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
+/* Pastille affichant le nom ou le rôle de l'utilisateur connecté */
 .user-badge {
     background-color: #edf2f7;
     padding: 0.4rem 0.9rem;
@@ -76,6 +87,7 @@ body {
     color: var(--text-color);
 }
 
+/* Lien de déconnexion */
 .btn-logout {
     color: var(--accent-color);
     text-decoration: none;
@@ -83,24 +95,30 @@ body {
     transition: color 0.2s;
 }
 
+/* Effet au survol du bouton de déconnexion */
 .btn-logout:hover {
     color: var(--accent-hover);
 }
 
-/* Layout */
+/* ==========================================
+   Mise en page globale (Layout)
+   ========================================== */
 .main-container {
     max-width: 800px;
     margin: 2.5rem auto;
     padding: 0 1rem;
 }
 
-/* Formulaires & Cartes Auth */
+/* ==========================================
+   Formulaires & Cartes d'authentification
+   ========================================== */
 .auth-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Carte conteneur pour les formulaires de connexion, d'inscription, etc. */
 .auth-card {
     background: var(--card-bg);
     padding: 2.5rem;
@@ -110,18 +128,21 @@ body {
     border: 1px solid var(--border-color);
 }
 
+/* Groupe de champ de formulaire (label + input empilés verticalement) */
 .form-group {
     margin-bottom: 1.25rem;
     display: flex;
     flex-direction: column;
 }
 
+/* Libellé d'un champ de formulaire */
 .form-group label {
     font-weight: 600;
     margin-bottom: 0.4rem;
     font-size: 0.9rem;
 }
 
+/* Style de base des champs de saisie (inputs, textareas, selects) */
 .form-group input, 
 .form-group textarea, 
 .form-group select {
@@ -133,18 +154,20 @@ body {
     transition: border-color 0.2s;
 }
 
+/* Changement de couleur de la bordure au focus sur les champs de saisie */
 .form-group input:focus, 
 .form-group textarea:focus, 
 .form-group select:focus {
     border-color: var(--accent-color);
 }
 
+/* Bouton d'action principal (style pilule avec ombre portée) */
 .btn-primary {
     background-color: var(--accent-color);
     color: white !important;
     border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 25px; /* Forme pilule plus esthétique */
+    border-radius: 25px; /* Forme pilule esthétique */
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
@@ -153,12 +176,14 @@ body {
     box-shadow: 0 4px 10px rgba(163, 56, 22, 0.2);
 }
 
+/* Effet au survol du bouton principal */
 .btn-primary:hover {
     background-color: var(--accent-hover);
     transform: translateY(-1px);
     box-shadow: 0 6px 14px rgba(163, 56, 22, 0.3);
 }
 
+/* Bouton d'action secondaire (transparent avec bordure) */
 .btn-secondary {
     background-color: transparent;
     color: var(--text-color);
@@ -171,11 +196,14 @@ body {
     transition: all 0.2s ease;
 }
 
+/* Effet au survol du bouton secondaire */
 .btn-secondary:hover {
     background-color: #edf2f7;
 }
 
-/* Boutons d'actions Flux */
+/* ==========================================
+   Boutons d'actions et Flux
+   ========================================== */
 .feed-header {
     display: flex;
     flex-direction: column;
@@ -184,12 +212,14 @@ body {
     margin-bottom: 2.5rem;
 }
 
+/* Conteneur des boutons d'action du flux (ex: Créer un ticket, Créer une critique) */
 .feed-actions {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
 }
 
+/* Style spécifique des boutons d'action du flux */
 .btn-action {
     background-color: var(--accent-color);
     color: #ffffff !important;
@@ -201,12 +231,15 @@ body {
     transition: all 0.2s ease;
 }
 
+/* Effet au survol des boutons d'action du flux */
 .btn-action:hover {
     background-color: var(--accent-hover);
     transform: translateY(-1px);
 }
 
-/* Cartes du Flux */
+/* ==========================================
+   Cartes du Flux (Tickets et Critiques)
+   ========================================== */
 .feed-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -216,6 +249,7 @@ body {
     box-shadow: var(--shadow);
 }
 
+/* En-tête d'une carte de flux (auteur, type de publication, date) */
 .card-header {
     display: flex;
     justify-content: space-between;
@@ -224,6 +258,7 @@ body {
     margin-bottom: 0.75rem;
 }
 
+/* Titre d'une carte */
 .card-title {
     font-size: 1.2rem;
     font-weight: 700;
@@ -231,26 +266,30 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* Affichage des étoiles de notation */
 .stars {
     color: #f59e0b;
     font-size: 1rem;
 }
 
-/* Amélioration visuelle du Ticket dans la Critique */
+/* ==========================================
+   Intégration d'un Ticket dans une Critique
+   ========================================== */
 .ticket-embedded {
     background-color: #f8fafc;
     border: 1px solid var(--border-color);
-    border-left: 4px solid var(--accent-color); /* Ligne d'accentuation élégante */
+    border-left: 4px solid var(--accent-color); /* Ligne verticale d'accentuation élégante à gauche */
     border-radius: 4px 8px 8px 4px;
     padding: 1rem 1.25rem;
     margin-top: 1rem;
 }
 
+/* Taille de police pour le texte à l'intérieur du ticket intégré */
 .ticket-embedded p {
     font-size: 0.9rem;
 }
 
-/* Conteneur pour aligner le petit bouton du ticket en bas à droite */
+/* Conteneur pour aligner les boutons d'action (ex: répondre) en bas à droite d'une carte */
 .card-actions {
     display: flex;
     justify-content: flex-end;

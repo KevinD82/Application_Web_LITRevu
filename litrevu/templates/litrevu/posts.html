@@ -1,44 +1,56 @@
+<!-- Héritage de la structure de base du site -->
 {% extends 'authentication/base.html' %}
 
+<!-- Définition dynamique du titre de la page pour l'onglet du navigateur -->
 {% block title %}Mes Publications - LITRevu{% endblock %}
 
 {% block content %}
+<!-- Conteneur principal de la page des publications personnelles -->
 <div class="main-container">
     
+    <!-- Titre principal de la page centré avec une marge basse -->
     <h2 style="text-align: center; margin-bottom: 30px;">Vos publications</h2>
 
+    <!-- Boucle d'affichage pour chaque élément (ticket ou critique) créé par l'utilisateur -->
     {% for item in posts %}
         
-        <!-- CAS 1 : TICKET de l'utilisateur -->
+        <!-- CAS 1 : Si l'élément courant est un TICKET appartenant à l'utilisateur -->
         {% if item.content_type == 'TICKET' %}
             <div class="feed-card" style="display: flex; flex-direction: column;">
+                <!-- En-tête de la carte : indication de l'action et date de création formatée -->
                 <div class="card-header">
                     <span>Vous avez demandé une critique</span>
                     <span>{{ item.time_created|date:"H:i, d F Y" }}</span>
                 </div>
                 
+                <!-- Titre et description de la demande de critique -->
                 <h3 class="card-title">{{ item.title }}</h3>
                 <p>{{ item.description }}</p>
 
+                <!-- Affichage conditionnel de l'image de couverture associée au ticket -->
                 {% if item.image %}
                     <img src="{{ item.image.url }}" alt="{{ item.title }}" style="max-width: 180px; border-radius: 6px; display: block; margin-top: 12px;">
                 {% endif %}
 
-                <!-- BOUTONS DE GESTION -->
+                <!-- SECTION DES BOUTONS DE GESTION (Modifier / Supprimer le ticket) -->
                 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                    <!-- Bouton de modification redirigeant vers la vue de mise à jour du ticket -->
                     <a href="{% url 'ticket_update' item.id %}" class="btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 1rem; width: auto; text-decoration: none;">Modifier</a>
+                    <!-- Bouton de suppression redirigeant vers la page de confirmation de suppression -->
                     <a href="{% url 'ticket_delete' item.id %}" class="btn-primary" style="font-size: 0.85rem; padding: 0.4rem 1rem; width: auto; text-decoration: none;">Supprimer</a>
                 </div>
             </div>
 
-        <!-- CAS 2 : CRITIQUE de l'utilisateur -->
+        <!-- CAS 2 : Si l'élément courant est une CRITIQUE (REVIEW) publiée par l'utilisateur -->
         {% elif item.content_type == 'REVIEW' %}
             <div class="feed-card" style="display: flex; flex-direction: column;">
+                <!-- En-tête : mention de la publication et date formatée -->
                 <div class="card-header">
                     <span>Vous avez publié une critique</span>
                     <span>{{ item.time_created|date:"H:i, d F Y" }}</span>
                 </div>
 
+                <!-- Ligne contenant le titre de la critique et sa notation convertie en étoiles -->
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                     <h3 class="card-title" style="margin-bottom: 0;">{{ item.headline }}</h3>
                     <span class="stars">
@@ -50,23 +62,27 @@
                     </span>
                 </div>
 
+                <!-- Corps ou texte détaillé de la critique -->
                 <p>{{ item.body }}</p>
 
-                <!-- Ticket associé -->
+                <!-- Encadré affichant le ticket d'origine sur lequel porte cette critique -->
                 <div class="ticket-embedded">
                     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">Ticket de {{ item.ticket.user.username }}</p>
                     <strong style="color: var(--primary-color);">{{ item.ticket.title }}</strong>
                     <p style="margin-top: 4px; font-size: 0.9rem;">{{ item.ticket.description }}</p>
                 </div>
 
-                <!-- BOUTONS DE GESTION -->
+                <!-- SECTION DES BOUTONS DE GESTION (Modifier / Supprimer la critique) -->
                 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                    <!-- Bouton de modification redirigeant vers la vue de mise à jour de la critique -->
                     <a href="{% url 'review_update' item.id %}" class="btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 1rem; width: auto; text-decoration: none;">Modifier</a>
+                    <!-- Bouton de suppression redirigeant vers la page de confirmation de suppression -->
                     <a href="{% url 'review_delete' item.id %}" class="btn-primary" style="font-size: 0.85rem; padding: 0.4rem 1rem; width: auto; text-decoration: none;">Supprimer</a>
                 </div>
             </div>
         {% endif %}
 
+    <!-- Bloc exécuté si l'utilisateur n'a créé aucune publication -->
     {% empty %}
         <p style="text-align: center; color: var(--text-muted);">Vous n'avez encore publié aucun ticket ni aucune critique.</p>
     {% endfor %}
