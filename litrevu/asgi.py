@@ -12,7 +12,7 @@ import os
 from django.core.asgi import get_asgi_application
 
 # Définition de la variable d'environnement par défaut pointant vers le module de configuration du projet Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'litrevu_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'litrevu.settings')
 
 # Récupération de l'application ASGI standard de Django pour gérer les requêtes asynchrones
 application = get_asgi_application()

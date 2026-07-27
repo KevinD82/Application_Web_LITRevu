@@ -7,7 +7,7 @@ import sys
 def main():
     """Exécute les tâches administratives (commandes manage.py comme runserver, migrate, etc.)."""
     # Définition de la variable d'environnement par défaut pointant vers le module de configuration du projet
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'litrevu_project.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'litrevu.settings')
     try:
         # Importation de la fonction d'exécution des commandes Django depuis le module de gestion
         from django.core.management import execute_from_command_line

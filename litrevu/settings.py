@@ -56,7 +56,7 @@ MIDDLEWARE = [
 ]
 
 # Chemin vers le fichier principal de routage des URLs du projet
-ROOT_URLCONF = "litrevu_project.urls"
+ROOT_URLCONF = "litrevu.urls"
 
 # Configuration des moteurs de templates HTML
 TEMPLATES = [
@@ -76,7 +76,7 @@ TEMPLATES = [
 ]
 
 # Chemin vers l'application WSGI pour le déploiement en production synchrone
-WSGI_APPLICATION = "litrevu_project.wsgi.application"
+WSGI_APPLICATION = "litrevu.wsgi.application"
 
 
 # Base de données
