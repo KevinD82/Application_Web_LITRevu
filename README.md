@@ -9,7 +9,6 @@ Ce projet est développé dans le cadre de la formation Développeur d'Applicati
 Cette première phase a consisté à mettre en place l'architecture globale du projet Django et à isoler la gestion des utilisateurs de manière évolutive.
 
 ### 🛠️ Fonctionnalités réalisées
-* **Initialisation du projet Django** : Création du dossier de configuration global `litrevu_project`.
 * **Application `authentication`** : Création d'une application dédiée à la gestion des accès (connexion, inscription).
 * **Modèle Utilisateur Personnalisé** : Implémentation d'une classe `User` héritant de `AbstractUser` dès le premier jour pour anticiper les futures évolutions de la base de données.
 * **Base de données & Superuser** : Exécution des migrations initiales (SQLite) et configuration du compte administrateur.
