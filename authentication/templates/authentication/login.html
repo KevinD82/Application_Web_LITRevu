@@ -1,18 +1,13 @@
-<!-- Héritage de la structure de base du site et chargement des balises statiques -->
 {% extends 'authentication/base.html' %}
 {% load static %}
 
-<!-- Définition dynamique du titre de la page affiché dans l'onglet du navigateur -->
 {% block title %}Connexion - LITRevu{% endblock %}
 
 {% block content %}
-<!-- Conteneur global pour centrer et structurer la carte d'authentification -->
 <div class="auth-wrapper">
     <div class="auth-card" style="max-width: 450px; text-align: center;">
         
-        <!-- En-tête visuel de la marque LITRevu (logo, titre et sous-titre) -->
         <div class="auth-brand" style="margin-bottom: 1.5rem;">
-            <!-- Affichage du logo du site avec une hauteur fixe et centré automatiquement -->
             <img src="{% static 'images/logo.png' %}" alt="LITRevu Logo" class="logo" style="height: 60px; margin: 0 auto 0.5rem auto; display: block;">
             <h1 style="font-size: 1.8rem; font-weight: 700; color: var(--primary-color);">LITRevu</h1>
             <p class="auth-subtitle" style="color: var(--text-muted); font-size: 0.95rem;">
@@ -20,35 +15,33 @@
             </p>
         </div>
 
-        <!-- Affichage conditionnel d'un message d'erreur (ex: identifiants invalides) avec style d'alerte rouge -->
         {% if message %}
             <p style="color: #dc2626; background-color: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem;">
                 {{ message }}
             </p>
         {% endif %}
 
-        <!-- Formulaire de connexion soumis en méthode POST avec alignement du texte à gauche -->
         <form method="post" style="text-align: left;">
-            <!-- Jeton de sécurité obligatoire de Django contre les attaques CSRF -->
             {% csrf_token %}
             
-            <!-- Groupe de champ pour le nom d'utilisateur -->
             <div class="form-group">
                 <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
                 {{ form.username }}
             </div>
 
-            <!-- Groupe de champ pour le mot de passe -->
             <div class="form-group">
                 <label for="{{ form.password.id_for_label }}">Mot de passe</label>
                 {{ form.password }}
             </div>
 
-            <!-- Bouton de soumission du formulaire de connexion -->
+            <!-- Lien mot de passe oublié -->
+            <div style="text-align: right; margin-top: 0.5rem;">
+                <a href="{% url 'password_reset' %}" style="color: var(--accent-color); font-size: 0.85rem; text-decoration: none;">Mot de passe oublié ?</a>
+            </div>
+
             <button type="submit" class="btn-primary" style="margin-top: 1rem;">Se connecter</button>
         </form>
 
-        <!-- Lien de redirection vers la page d'inscription pour les nouveaux utilisateurs -->
         <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
             Pas encore de compte ? <a href="{% url 'signup' %}" style="color: var(--accent-color); font-weight: 600; text-decoration: none;">Inscrivez-vous ici</a>
         </p>

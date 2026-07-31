@@ -1,64 +1,50 @@
-<!-- Héritage de la structure de base du site -->
 {% extends 'authentication/base.html' %}
 
-<!-- Définition dynamique du titre de la page affiché dans l'onglet du navigateur -->
 {% block title %}Flux - LITRevu{% endblock %}
 
 {% block content %}
-<!-- Conteneur principal de la page du flux -->
 <div class="main-container">
     
-    <!-- En-tête du flux contenant les boutons d'action rapide -->
     <div class="feed-header">
         <div class="feed-actions">
-            <!-- Bouton pour créer une demande de critique (Ticket) -->
             <a href="{% url 'ticket_create' %}" class="btn-action">+ Demander une critique</a>
-            <!-- Bouton pour créer directement une critique et son ticket associé -->
             <a href="{% url 'review_create' %}" class="btn-action">✍️ Créer une critique</a>
         </div>
         <h2>Flux d'actualité</h2>
     </div>
 
-    <!-- Boucle d'affichage pour chaque élément (posts) combiné et trié du flux -->
     {% for item in posts %}
         
-        <!-- CAS 1 : Si l'élément courant est un TICKET -->
+        <!-- CAS 1 : TICKET -->
         {% if item.content_type == 'TICKET' %}
             <div class="feed-card" style="display: flex; flex-direction: column;">
-                <!-- En-tête de la carte : mention de l'auteur (ou "Vous") à gauche et date formatée à droite -->
                 <div class="card-header">
                     <span>{% if item.user == request.user %}Vous avez{% else %}{{ item.user.username }} a{% endif %} demandé une critique</span>
                     <span>{{ item.time_created|date:"H:i, d F Y" }}</span>
                 </div>
                 
-                <!-- Titre et description du livre/article demandé -->
                 <h3 class="card-title">{{ item.title }}</h3>
                 <p>{{ item.description }}</p>
 
-                <!-- Affichage conditionnel de l'image de couverture si elle existe -->
                 {% if item.image %}
                     <img src="{{ item.image.url }}" alt="{{ item.title }}" style="max-width: 200px; border-radius: 6px; display: block; margin-top: 12px;">
                 {% endif %}
 
-                <!-- Bas de carte : Bouton pour répondre à ce ticket en créant une critique, aligné à droite -->
                 <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
                     <a href="{% url 'review_create_reply' item.id %}" class="btn-primary" style="width: auto; font-size: 0.85rem; padding: 0.5rem 1.25rem;">Créer une critique</a>
                 </div>
             </div>
 
-        <!-- CAS 2 : Si l'élément courant est une CRITIQUE (REVIEW) -->
+        <!-- CAS 2 : REVIEW -->
         {% elif item.content_type == 'REVIEW' %}
             <div class="feed-card">
-                <!-- En-tête : auteur de la critique et date de création -->
                 <div class="card-header">
                     <span>{% if item.user == request.user %}Vous avez{% else %}{{ item.user.username }} a{% endif %} publié une critique</span>
                     <span>{{ item.time_created|date:"H:i, d F Y" }}</span>
                 </div>
 
-                <!-- Ligne contenant le titre de la critique et sa notation sous forme d'étoiles -->
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                     <h3 class="card-title" style="margin-bottom: 0;">{{ item.headline }}</h3>
-                    <!-- Génération dynamique des étoiles en fonction de la note (de 1 à 5) -->
                     <span class="stars">
                         {% if item.rating == 5 %}★★★★★
                         {% elif item.rating == 4 %}★★★★☆
@@ -68,19 +54,22 @@
                     </span>
                 </div>
 
-                <!-- Corps ou commentaire détaillé de la critique -->
                 <p>{{ item.body }}</p>
 
-                <!-- Encadré affichant le ticket d'origine associé à cette critique -->
-                <div class="ticket-embedded">
+                <!-- Ticket encadré associé à la critique -->
+                <div class="ticket-embedded" style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px; margin-top: 12px; background-color: #f9fafb;">
                     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">Ticket de {{ item.ticket.user.username }}</p>
                     <strong style="color: var(--primary-color);">{{ item.ticket.title }}</strong>
                     <p style="margin-top: 4px; font-size: 0.9rem;">{{ item.ticket.description }}</p>
+                    
+                    <!-- Affichage de l'image du ticket sous la critique -->
+                    {% if item.ticket.image %}
+                        <img src="{{ item.ticket.image.url }}" alt="{{ item.ticket.title }}" style="max-width: 150px; border-radius: 4px; display: block; margin-top: 8px;">
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
 
-    <!-- Bloc exécuté si la liste des posts est vide -->
     {% empty %}
         <p style="text-align: center; color: var(--text-muted);">Aucune publication à afficher pour le moment.</p>
     {% endfor %}
