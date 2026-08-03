@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from litrevu.models import Review, Ticket, UserFollows
 
-from .forms import LoginForm, ReviewForm, SignupForm, TicketForm
+from authentication.forms import LoginForm, ReviewForm, SignupForm, TicketForm
 
 User = get_user_model()
 

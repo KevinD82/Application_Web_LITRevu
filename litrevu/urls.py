@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as django_auth_views
 
-from authentication import views as auth_views
+from litrevu import views as auth_views
 
 urlpatterns = [
     # Route d'accès au panneau d'administration
