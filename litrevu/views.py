@@ -5,9 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import CharField, Value
 from django.shortcuts import get_object_or_404, redirect, render
 
-from litrevu.models import Review, Ticket, UserFollows
-
 from authentication.forms import LoginForm, ReviewForm, SignupForm, TicketForm
+from litrevu.models import Review, Ticket, UserFollows
 
 User = get_user_model()
 
