@@ -12,6 +12,7 @@ urlpatterns = [
     
     # --- Authentification & Vues principales ---
     django.urls.path('', auth_views.login_page, name='login'),
+    django.urls.path('index/', auth_views.login_page, name='login'),
     django.urls.path('logout/', auth_views.logout_user, name='logout'),
     django.urls.path('signup/', auth_views.signup_page, name='signup'),
     django.urls.path('home/', auth_views.home, name='home'),
