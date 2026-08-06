@@ -1,16 +1,26 @@
+# Importation de la fonction chain pour combiner des listes itérables (ex: fusionner tickets et critiques)
 from itertools import chain
 
+# Importation du modèle utilisateur actif et du décorateur pour restreindre l'accès aux utilisateurs connectés
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+
+# Importation pour ajouter des annotations SQL (valeurs constantes de type)
 from django.db.models import CharField, Value
+
+# Raccourcis pour récupérer un objet (ou 404), rediriger ou rendre un template HTML
 from django.shortcuts import get_object_or_404, redirect, render
 
-from authentication.forms import (  # Les formulaires peuvent rester mutualisés ou dans leur app respective
+# Importation des formulaires liés aux critiques et aux tickets
+from authentication.forms import (
     ReviewForm,
     TicketForm,
 )
+
+# Importation des modèles de données de l'application litrevu
 from litrevu.models import Review, Ticket, UserFollows
 
+# Récupération dynamique du modèle utilisateur personnalisé
 User = get_user_model()
 
 # --- FLUX & POSTS ---
@@ -18,9 +28,12 @@ User = get_user_model()
 @login_required
 def home(request):
     """Affiche le flux principal de l'utilisateur."""
+    # Récupération de tous les tickets et annotation d'un type "TICKET"
     tickets = Ticket.objects.all().annotate(content_type=Value("TICKET", CharField()))
+    # Récupération de toutes les critiques et annotation d'un type "REVIEW"
     reviews = Review.objects.all().annotate(content_type=Value("REVIEW", CharField()))
 
+    # Fusion des listes de critiques et de tickets, puis tri par date de création décroissante
     posts = sorted(
         chain(reviews, tickets), key=lambda post: post.time_created, reverse=True
     )
@@ -32,13 +45,16 @@ def home(request):
 @login_required
 def posts(request):
     """Affiche les publications créées par l'utilisateur connecté."""
+    # Filtrage des tickets appartenant uniquement à l'utilisateur connecté avec annotation
     user_tickets = Ticket.objects.filter(user=request.user).annotate(
         content_type=Value("TICKET", CharField())
     )
+    # Filtrage des critiques appartenant uniquement à l'utilisateur connecté avec annotation
     user_reviews = Review.objects.filter(user=request.user).annotate(
         content_type=Value("REVIEW", CharField())
     )
 
+    # Fusion des posts personnels et tri antéchronologique
     user_posts = sorted(
         chain(user_reviews, user_tickets),
         key=lambda post: post.time_created,
@@ -56,14 +72,17 @@ def subscriptions(request):
     """Affiche la page de gestion des abonnements et gère le suivi d'utilisateurs."""
     message = ""
 
+    # Traitement de l'ajout d'un abonnement via un formulaire POST
     if request.method == "POST":
         username_to_follow = request.POST.get("username")
         if username_to_follow:
             try:
+                # Recherche de l'utilisateur cible à suivre dans la base de données
                 user_to_follow = User.objects.get(username=username_to_follow)
                 if user_to_follow == request.user:
                     message = "Vous ne pouvez pas vous suivre vous-même."
                 else:
+                    # Création de la relation d'abonnement si elle n'existe pas déjà
                     UserFollows.objects.get_or_create(
                         user=request.user,
                         followed_user=user_to_follow
@@ -72,6 +91,7 @@ def subscriptions(request):
             except User.DoesNotExist:
                 message = f"L'utilisateur '{username_to_follow}' n'existe pas."
 
+    # Récupération des abonnements (personnes suivies) et des abonnés de l'utilisateur courant
     following = UserFollows.objects.filter(user=request.user)
     followers = UserFollows.objects.filter(followed_user=request.user)
 
@@ -86,6 +106,7 @@ def subscriptions(request):
 @login_required
 def unsubscribe(request, follow_id):
     """Permet de supprimer un abonnement."""
+    # Récupération sécurisée du lien d'abonnement appartenant à l'utilisateur
     follow = get_object_or_404(UserFollows, id=follow_id, user=request.user)
     if request.method == "POST":
         follow.delete()
@@ -100,6 +121,7 @@ def ticket_create(request):
     if request.method == "POST":
         form = TicketForm(request.POST, request.FILES)
         if form.is_valid():
+            # Sauvegarde différée pour associer l'utilisateur connecté avant l'insertion en base
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
@@ -120,11 +142,14 @@ def review_create(request):
         ticket_form = TicketForm(request.POST, request.FILES)
         review_form = ReviewForm(request.POST)
 
+        # Validation simultanée des deux formulaires
         if ticket_form.is_valid() and review_form.is_valid():
+            # Enregistrement du ticket d'abord
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
             ticket.save()
 
+            # Enregistrement de la critique liée au ticket tout juste créé
             review = review_form.save(commit=False)
             review.ticket = ticket
             review.user = request.user
@@ -166,6 +191,7 @@ def review_create_reply(request, ticket_id):
 @login_required
 def ticket_update(request, ticket_id):
     """Permet à l'utilisateur de modifier son ticket."""
+    # Sécurité : vérification que le ticket appartient bien à l'utilisateur connecté
     ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
     if request.method == "POST":
         form = TicketForm(request.POST, request.FILES, instance=ticket)
