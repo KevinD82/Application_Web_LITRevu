@@ -27,19 +27,29 @@ User = get_user_model()
 
 @login_required
 def home(request):
-    """Affiche le flux principal de l'utilisateur."""
-    # Récupération de tous les tickets et annotation d'un type "TICKET"
-    tickets = Ticket.objects.all().annotate(content_type=Value("TICKET", CharField()))
-    # Récupération de toutes les critiques et annotation d'un type "REVIEW"
-    reviews = Review.objects.all().annotate(content_type=Value("REVIEW", CharField()))
-
-    # Fusion des listes de critiques et de tickets, puis tri par date de création décroissante
+    # 1. les auteurs suivis
+    following = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
+    
+    # 2. Qui a répondu à mes tickets 
+    responders = Review.objects.filter(ticket__user=request.user).values_list('user', flat=True)
+    
+    # 3. Liste combinée de tous les auteurs dont je dois voir le contenu
+    # On ajoute [request.user.id] pour inclure mes propres publications
+    authors = set(list(following) + list(responders) + [request.user.id])
+    
+    # 4. Filtrage STRICT : 
+    # Je ne vois les tickets QUE si l'auteur est dans la liste 'authors'
+    tickets = Ticket.objects.filter(user__in=authors).annotate(content_type=Value("TICKET", CharField()))
+    
+    # Je ne vois les reviews QUE si l'auteur est dans la liste 'authors'
+    reviews = Review.objects.filter(user__in=authors).annotate(content_type=Value("REVIEW", CharField()))
+    
+    # Fusion et tri
     posts = sorted(
         chain(reviews, tickets), key=lambda post: post.time_created, reverse=True
     )
 
-    context = {"posts": posts}
-    return render(request, "litrevu/home.html", context)
+    return render(request, "litrevu/home.html", {"posts": posts})
 
 
 @login_required
